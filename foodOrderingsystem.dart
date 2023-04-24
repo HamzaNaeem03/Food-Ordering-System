@@ -186,10 +186,7 @@ void main() {
       print("($index)          $key:  Price $value");
       index++;
     });
-    int itemInput = int.parse(stdin.readLineSync()!);
-
-    print("$desserts[itemInput - 1]");
-  }
+ }
 
   print("*" * 29 +
       "MENU" +
