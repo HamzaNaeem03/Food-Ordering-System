@@ -12,7 +12,7 @@ void main() async {
     print("(1) Login  *");
     print("(2) Signup *");
     print("************\n");
-
+    print("Input 1 for Login & 2 for Sign up: ");
     String selection = stdin.readLineSync().toString();
     if (selection == "1") {
       stdout.write('\x1B[2J\x1B[0;0H');
