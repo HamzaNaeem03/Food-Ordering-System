@@ -12,7 +12,7 @@ void main() async {
     print("(1) Login  *");
     print("(2) Signup *");
     print("************\n");
-    print("Input 1 for Login & 2 for Sign up: ");
+    print("Input 1 for Login & 2 for Sign up: \n");
     String selection = stdin.readLineSync().toString();
     if (selection == "1") {
       stdout.write('\x1B[2J\x1B[0;0H');
@@ -38,11 +38,13 @@ void main() async {
               stdout.write('\x1B[2J\x1B[0;0H');
               food_list.show_foodlist();
               print("Input Index of item to put in cart");
-              print("Input M to go back to Categories: ");
+              print("Input M to go back to Categories: \n");
+              print(user_selections);
+              print("");
               if (user_selections.length > 0) {
-                print("Next Item");
+                print("Next Item:");
               } else {
-                print("First Order");
+                print("First Iems:");
               }
               String index = stdin.readLineSync().toString();
               if (index == "M") {
@@ -80,15 +82,17 @@ void main() async {
               stdout.write('\x1B[2J\x1B[0;0H');
               food_list.show_drinklist();
               print("Input Index of item to put in cart");
-              print("Input M to go back to Categories: ");
-
+              print("Input M to go back to Categories: \n");
+              print(user_selections);
+              print("");
               if (user_selections.length > 0) {
-                print("Next Item");
+                print("Next Item:");
               } else {
-                print("First Order");
+                print("First Order:");
               }
               String index = stdin.readLineSync().toString();
               if (index == "M") {
+                stdout.write('\x1B[2J\x1B[0;0H');
                 break;
               }
               if (food_list.Drinks[index] != null) {
@@ -128,7 +132,9 @@ void main() async {
                     '${entry.key} x${entry.value} : ${food_list.prices[entry.key]! * entry.value}');
                 total = total + food_list.prices[entry.key]! * entry.value;
               }
-              print("__________________________________________________");
+
+              print("\nAddress : ${user_data.findaddress(login_email)}");
+              print("_________________________________________________");
               print("Total : ${total}");
               print("*************************************************");
               print("(C) confirm Order");
@@ -142,7 +148,7 @@ void main() async {
                 stdout.write('\x1B[2J\x1B[0;0H');
               } else if (order_selection.toUpperCase() == "X") {
                 stdout.write('\x1B[2J\x1B[0;0H');
-                print("You Order Cancelled! ");
+                print("Your Order Cancelled! ");
 
                 user_selections.clear();
 
