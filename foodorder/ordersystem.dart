@@ -5,6 +5,7 @@ import 'eatable.dart';
 import 'dart:async';
 
 void main() async {
+  stdout.write('\x1B[2J\x1B[0;0H');
   user_accounts user_data = new user_accounts();
 
   while (true) {
@@ -12,18 +13,18 @@ void main() async {
     print("(1) Login  *");
     print("(2) Signup *");
     print("************\n");
-    print("Input 1 for Login & 2 for Sign up: \n");
+    stdout.write("Input 1 for Login & 2 for Sign up: ");
     String selection = stdin.readLineSync().toString();
     if (selection == "1") {
       stdout.write('\x1B[2J\x1B[0;0H');
       print("Enter Email & Username to login!");
-      print("Enter Email: ");
+      stdout.write("Enter Email: ");
       String login_email = stdin.readLineSync().toString();
-      print("Enter Password: ");
+      stdout.write("Enter Password: ");
       String login_pass = stdin.readLineSync().toString();
       if (user_data.compare_pass(login_email, login_pass)) {
         stdout.write('\x1B[2J\x1B[0;0H');
-        print("Login Successful");
+        stdout.write('\x1b[34mLogin Successful\x1b[0m\n');
         Map<String, int> user_selections = {};
         while (true) {
           print("What you Like to buy?");
@@ -42,11 +43,12 @@ void main() async {
               print(user_selections);
               print("");
               if (user_selections.length > 0) {
-                print("Next Item:");
+                stdout.write("Next Item: ");
               } else {
-                print("First Iems:");
+                stdout.write("First Iems: ");
               }
               String index = stdin.readLineSync().toString();
+              print("");
               if (index == "M") {
                 stdout.write('\x1B[2J\x1B[0;0H');
                 break;
@@ -56,7 +58,8 @@ void main() async {
                 print("(R) Remove From Cart");
                 String add_remove = stdin.readLineSync().toString();
                 if (add_remove.toUpperCase() == "A") {
-                  print("Item Successfully Added In Crate");
+                  stdout.write(
+                      '\x1b[34mItem Successfully Added In Crate\x1b[0m\n');
                   if (user_selections[food_list.Foods[index].toString()] !=
                       null) {
                     user_selections[food_list.Foods[index].toString()] =
@@ -73,8 +76,6 @@ void main() async {
                     print("Item is not in Cart");
                   }
                 }
-              } else {
-                print("Invalid Index try again!");
               }
             }
           } else if (selected_type.toUpperCase() == "D") {
@@ -86,9 +87,9 @@ void main() async {
               print(user_selections);
               print("");
               if (user_selections.length > 0) {
-                print("Next Item:");
+                stdout.write("Next Item: ");
               } else {
-                print("First Order:");
+                stdout.write("First Iems: ");
               }
               String index = stdin.readLineSync().toString();
               if (index == "M") {
@@ -100,7 +101,8 @@ void main() async {
                 print("(R) Remove From Cart");
                 String add_remove = stdin.readLineSync().toString();
                 if (add_remove.toUpperCase() == "A") {
-                  print("Item Successfully Added In Crate");
+                  stdout.write(
+                      '\x1b[34mItem Successfully Added In Crate\x1b[0m\n');
                   if (user_selections[food_list.Drinks[index].toString()] !=
                       null) {
                     user_selections[food_list.Drinks[index].toString()] =
@@ -139,7 +141,7 @@ void main() async {
               print("*************************************************");
               print("(C) confirm Order");
               print("(X) Decline Order\n");
-              print("Select C or X: ");
+              stdout.write("Select C or X: ");
               String order_selection = stdin.readLineSync().toString();
               if (order_selection.toUpperCase() == "C") {
                 stdout.write('\x1B[2J\x1B[0;0H');
@@ -148,7 +150,7 @@ void main() async {
                 stdout.write('\x1B[2J\x1B[0;0H');
               } else if (order_selection.toUpperCase() == "X") {
                 stdout.write('\x1B[2J\x1B[0;0H');
-                print("Your Order Cancelled! ");
+                stdout.write('\x1b[31mYour Order Cancelled!\x1b[0m\n');
 
                 user_selections.clear();
 
@@ -164,26 +166,27 @@ void main() async {
             break;
           } else {
             stdout.write('\x1B[2J\x1B[0;0H');
-            print("Invalid Index try again!");
+            stdout.write('\x1b[31mInvalid Index try again!\x1b[0m\n');
           }
         }
       } else {
         stdout.write('\x1B[2J\x1B[0;0H');
-        print("'Email' or 'Password' is Incorrect");
+        stdout.write("\x1b[31m'Email' or 'Password' is Incorrect\n\x1b[0m\n");
       }
     } else if (selection == "2") {
       while (true) {
         stdout.write('\x1B[2J\x1B[0;0H');
         print("Enter Email, Password & Address to signup!");
-        print("Enter Email: ");
+        stdout.write("Enter Email: ");
         String signup_email = stdin.readLineSync().toString();
         if (user_data.find_user(signup_email)) {
-          print("'Email' is already in used try different 'Email'");
+          stdout.write(
+              "\x1b[31m'Email' is already in used try different 'Email'\x1b[0m\n");
           print("****************");
           print("(R) Retry      *");
           print("(X) Exit Signup*");
           print("****************\n");
-          print("Press R to retry and X to back to login page");
+          stdout.write("Press R to retry and X to back to login page: ");
           String signup_selection = stdin.readLineSync().toString();
           if (signup_selection.toUpperCase() == "R") {
             continue;
@@ -191,20 +194,20 @@ void main() async {
             break;
           }
         }
-        print("Enter Password: ");
+        stdout.write("Enter Password: ");
         String signup_pass = stdin.readLineSync().toString();
-        print("Enter Your Address: ");
+        stdout.write("Enter Your Address: ");
         String signup_address = stdin.readLineSync().toString();
         stdout.write('\x1B[2J\x1B[0;0H');
-        print("Sign up Successful");
+        stdout.write('\x1b[34mSign up Successful\x1b[0m\n');
         User users = new User(signup_email, signup_pass, signup_address);
         user_data.add_account(users);
         break;
       }
     } else {
       stdout.write('\x1B[2J\x1B[0;0H');
+
       print("Wrong Selection try again!");
     }
   }
 }
-
