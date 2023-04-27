@@ -8,7 +8,6 @@ void main() async {
   user_accounts user_data = new user_accounts();
 
   while (true) {
-    stdout.write('\x1B[2J\x1B[0;0H');
     print("************");
     print("(1) Login  *");
     print("(2) Signup *");
@@ -118,7 +117,7 @@ void main() async {
               }
             }
           } else if (selected_type.toUpperCase() == "C") {
-            if (user_selections.length > 1) {
+            if (user_selections.length > 0) {
               int total = 0;
               print("************");
               print("*Your Order*");
@@ -133,12 +132,22 @@ void main() async {
               print("Total : ${total}");
               print("*************************************************");
               print("(C) confirm Order");
-              print("(X) Decline Order");
+              print("(X) Decline Order\n");
+              print("Select C or X: ");
               String order_selection = stdin.readLineSync().toString();
               if (order_selection.toUpperCase() == "C") {
                 stdout.write('\x1B[2J\x1B[0;0H');
                 print("Thankyou For Purchasing from our App");
                 await Future.delayed(Duration(seconds: 2));
+                stdout.write('\x1B[2J\x1B[0;0H');
+              } else if (order_selection.toUpperCase() == "X") {
+                stdout.write('\x1B[2J\x1B[0;0H');
+                print("You Order Cancelled! ");
+
+                user_selections.clear();
+
+                await Future.delayed(Duration(seconds: 2));
+                stdout.write('\x1B[2J\x1B[0;0H');
               }
             } else {
               stdout.write('\x1B[2J\x1B[0;0H');
@@ -153,6 +162,7 @@ void main() async {
           }
         }
       } else {
+        stdout.write('\x1B[2J\x1B[0;0H');
         print("'Email' or 'Password' is Incorrect");
       }
     } else if (selection == "2") {
@@ -179,12 +189,14 @@ void main() async {
         String signup_pass = stdin.readLineSync().toString();
         print("Enter Your Address: ");
         String signup_address = stdin.readLineSync().toString();
+        stdout.write('\x1B[2J\x1B[0;0H');
         print("Sign up Successful");
         User users = new User(signup_email, signup_pass, signup_address);
         user_data.add_account(users);
         break;
       }
     } else {
+      stdout.write('\x1B[2J\x1B[0;0H');
       print("Wrong Selection try again!");
     }
   }
