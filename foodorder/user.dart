@@ -37,4 +37,14 @@ class user_accounts {
     }
     return is_real;
   }
+
+  String findaddress(email) {
+    late String a;
+    for (int i = 0; i < _users.length; i++) {
+      if (_users[i].email == email) {
+        a = _users[i].address;
+      }
+    }
+    return a;
+  }
 }
