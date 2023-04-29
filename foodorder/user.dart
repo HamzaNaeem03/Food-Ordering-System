@@ -10,6 +10,7 @@ class User {
 
 class user_accounts {
   List<User> _users = [];
+  Map<String, Map> history = {};
   void add_account(User val) {
     _users.add(val);
   }
