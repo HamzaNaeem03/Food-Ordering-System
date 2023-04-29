@@ -1,10 +1,16 @@
-import 'dart:html';
 import 'dart:io';
 import 'user.dart';
 import 'eatable.dart';
 import 'dart:async';
+import 'dart:math';
 
 void main() async {
+  const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
   stdout.write('\x1B[2J\x1B[0;0H');
   user_accounts user_data = new user_accounts();
 
@@ -31,6 +37,7 @@ void main() async {
           print("(F) Food");
           print("(D) Drink");
           print("(C) Confirm Order");
+          print("(H) Order History");
           print("(X) sign out");
           String selected_type = stdin.readLineSync().toString();
           Eatables food_list = new Eatables();
@@ -49,7 +56,7 @@ void main() async {
               }
               String index = stdin.readLineSync().toString();
               print("");
-              if (index == "M") {
+              if (index.toUpperCase() == "M") {
                 stdout.write('\x1B[2J\x1B[0;0H');
                 break;
               }
@@ -92,7 +99,7 @@ void main() async {
                 stdout.write("First Iems: ");
               }
               String index = stdin.readLineSync().toString();
-              if (index == "M") {
+              if (index.toUpperCase() == "M") {
                 stdout.write('\x1B[2J\x1B[0;0H');
                 break;
               }
@@ -145,6 +152,15 @@ void main() async {
               String order_selection = stdin.readLineSync().toString();
               if (order_selection.toUpperCase() == "C") {
                 stdout.write('\x1B[2J\x1B[0;0H');
+
+                while (true) {
+                  String rndm = getRandomString(4);
+                  if (user_data.history[rndm] == null) {
+                    user_data.history[rndm] = Map.from(user_selections);
+                    user_selections.clear();
+                    break;
+                  }
+                }
                 print("Thankyou For Purchasing from our App");
                 await Future.delayed(Duration(seconds: 2));
                 stdout.write('\x1B[2J\x1B[0;0H');
@@ -160,6 +176,53 @@ void main() async {
             } else {
               stdout.write('\x1B[2J\x1B[0;0H');
               print("You Have Selected Nothing");
+            }
+            // }else if(selected_type.toUpperCase() == "R"){
+
+            // }
+          } else if (selected_type.toUpperCase() == "H") {
+            stdout.write('\x1B[2J\x1B[0;0H');
+            print("ID  :   Previous Orders");
+            for (var entry in user_data.history.entries) {
+              print('${entry.key} : ${entry.value}');
+            }
+            print("(R) Re order");
+            print("(B) Back to Categories");
+
+            stdout.write("Select R or B: ");
+            String re_order = stdin.readLineSync().toString();
+            if (re_order.toUpperCase() == "R") {
+              while (true) {
+                print("put X to cancel.");
+                stdout.write("Enter Order ID: ");
+                String order_id = stdin.readLineSync().toString();
+                if (order_id.toUpperCase() == "X") {
+                  stdout.write('\x1B[2J\x1B[0;0H');
+                  break;
+                } else if (user_data.history[order_id] != null) {
+                  print("(C) Clear Selected List and Add");
+                  print("Input C to Proceed:");
+                  String reorder_list = stdin.readLineSync().toString();
+                  if (reorder_list.toUpperCase() == "C") {
+                    user_selections.clear();
+                    for (var entry in user_data.history[order_id]!.entries) {
+                      user_selections[entry.key] = entry.value;
+                    }
+                    stdout.write('\x1B[2J\x1B[0;0H');
+                    break;
+                  }
+                } else {
+                  stdout.write('\x1B[2J\x1B[0;0H');
+                  print("Order ID not found");
+                  print("ID  :   Previous Orders");
+                  for (var entry in user_data.history.entries) {
+                    print('${entry.key} : ${entry.value}');
+                  }
+                }
+              }
+            } else if (re_order == "B") {
+              stdout.write('\x1B[2J\x1B[0;0H');
+              break;
             }
           } else if (selected_type.toUpperCase() == "X") {
             stdout.write('\x1B[2J\x1B[0;0H');
